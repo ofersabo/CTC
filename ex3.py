@@ -1,13 +1,11 @@
 import numpy as np
-
+import sys
 blank = '_'
-mat = np.load("mat.npy").T
-print(mat)
-print()
 
-blank
-expected_output = "a"
-vocabulary = "ab"
+matrix_file = "mat.npy" if len(sys.argv) <4 else sys.argv[2]
+mat = np.load(matrix_file).T
+expected_output = "ab" if len(sys.argv) <4 else sys.argv[2]
+vocabulary = "ab" if len(sys.argv) <4 else sys.argv[3]
 
 vocabulary += blank
 probability = {}
@@ -15,14 +13,14 @@ for row_number,cha in enumerate(vocabulary):
         probability[cha] = mat[row_number]
 
 expected_with_blanks = blank + blank.join(expected_output) + blank
-print(expected_with_blanks)
+# print(expected_with_blanks)
 
 
 time_slots = len(mat[0])
 cal_matrix = np.zeros((len(expected_with_blanks), time_slots))
 cal_matrix[0,0] = probability[expected_with_blanks[0]][0]
 cal_matrix[1,0] = probability[expected_with_blanks[1]][0]
-print(cal_matrix)
+# print(cal_matrix)
 
 
 def get_val(matrix, row, col):
